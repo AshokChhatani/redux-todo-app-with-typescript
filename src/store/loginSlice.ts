@@ -24,7 +24,9 @@ export const login = createAsyncThunk(
         body: JSON.stringify(user),
       });
       let data = await response.json();
-
+      if (response.status === 400) {
+        console.log("Invalid email or password");
+      }
       if (response.status === 200) {
         localStorage.setItem("token", data.token);
         return data;
@@ -51,7 +53,9 @@ const loginSlice = createSlice({
       state.status = STATUSES.LOADING;
     },
     [login.fulfilled]: (state: Login, action: ActionType) => {
-      state.login = true;
+      if (localStorage.getItem("token")) {
+        state.login = true;
+      }
       state.status = STATUSES.IDLE;
     },
     [login.rejected]: (state: Login, action: ActionType) => {

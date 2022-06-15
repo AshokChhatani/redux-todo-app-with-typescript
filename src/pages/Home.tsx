@@ -9,7 +9,7 @@ const Home = () => {
   const isLogin = useSelector((state: RootStateType) => state.login) as Login;
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isLogin) {
+    if (!isLogin.login) {
       navigate("/login");
     }
   }, [isLogin, navigate]);

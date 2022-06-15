@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/loginSlice";
@@ -17,16 +17,25 @@ const Login = () => {
   ) as LoginType;
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLogin.login) {
+      navigate("/");
+    }
+  }, [isLogin, navigate]);
+
   const loginhandler = () => {
     const user = { email, password };
     dispatch(login(user));
-    if (isLogin) {
-      navigate("/");
-    }
   };
   return (
     <>
       <h1>Login</h1>
+      {isLogin.status === "loading" && (
+        <>
+          <div>Loading...</div>
+          <br />
+        </>
+      )}
       <TextField
         id="outlined-basic"
         label="Email"
