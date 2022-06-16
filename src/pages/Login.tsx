@@ -2,7 +2,7 @@ import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/loginSlice";
+import { loginStart } from "../store/loginSlice";
 import { RootStateType } from "../store/store";
 import { Login as LoginType } from "../store/types";
 
@@ -25,7 +25,7 @@ const Login = () => {
 
   const loginhandler = () => {
     const user = { email, password };
-    dispatch(login(user));
+    dispatch(loginStart(user));
   };
   return (
     <>

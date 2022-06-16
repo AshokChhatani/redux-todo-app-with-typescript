@@ -1,5 +1,5 @@
 import { TaskList } from "./types";
-const { createSlice, createAsyncThunk, Action } = require("@reduxjs/toolkit");
+const { createSlice, Action } = require("@reduxjs/toolkit");
 type ActionType = typeof Action;
 
 export const STATUSES = {
@@ -13,29 +13,23 @@ const initialState: TaskList = {
   status: STATUSES.IDLE,
 };
 
-export const fetchTasklist = createAsyncThunk("tasklist/fetch", async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
-  const data = await res.json();
-  return data;
-});
-
 const tasklistSlice = createSlice({
   name: "tasklist",
   initialState,
-  reducers: {},
-  extraReducers: {
-    [fetchTasklist.pending]: (state: TaskList, action: ActionType) => {
+  reducers: {
+    getlistFetch: (state: any) => {
       state.status = STATUSES.LOADING;
     },
-    [fetchTasklist.fulfilled]: (state: TaskList, action: ActionType) => {
+    getlistSuccess: (state: any, action: ActionType) => {
       state.tasklist = action.payload;
       state.status = STATUSES.IDLE;
     },
-    [fetchTasklist.rejected]: (state: TaskList, action: ActionType) => {
+    getlistFailure: (state: any) => {
       state.status = STATUSES.ERROR;
     },
   },
 });
 
-export const { setTasklist, setStatus } = tasklistSlice.actions;
+export const { getlistFetch, getlistSuccess, getlistFailure } =
+  tasklistSlice.actions;
 export default tasklistSlice.reducer;

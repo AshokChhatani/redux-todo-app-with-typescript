@@ -1,5 +1,11 @@
-import { Login, Login_Data } from "./types";
-const { createSlice, createAsyncThunk, Action } = require("@reduxjs/toolkit");
+import axios from "axios";
+import { Login, Login_Data, Response } from "./types";
+const {
+  createSlice,
+  createAsyncThunk,
+  Action,
+  rejectWithValue,
+} = require("@reduxjs/toolkit");
 type ActionType = typeof Action;
 
 export const STATUSES = {
@@ -12,29 +18,28 @@ const initialState: Login = {
   login: false,
   status: STATUSES.IDLE,
 };
+
 export const login = createAsyncThunk(
   "users/login",
   async (user: Login_Data) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify(user);
     try {
-      const response = await fetch("https://reqres.in/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-      let data = await response.json();
-      if (response.status === 400) {
-        console.log("Invalid email or password");
-      }
-      if (response.status === 200) {
-        localStorage.setItem("token", data.token);
-        return data;
-      } else {
-        return;
-      }
-    } catch (e: any) {
-      console.log("Error", e.response.data);
+      const res: Response = await axios.post(
+        "https://reqres.in/api/login",
+        body,
+        config
+      );
+      let data = res;
+      localStorage.setItem("token", data.data.token);
+      return data;
+    } catch (err: any) {
+      const error = err.response.data.error;
+      return rejectWithValue(error);
     }
   }
 );
@@ -47,22 +52,19 @@ const loginSlice = createSlice({
       localStorage.removeItem("token");
       state.login = false;
     },
-  },
-  extraReducers: {
-    [login.pending]: (state: Login, action: ActionType) => {
+    loginStart: (state: any) => {
       state.status = STATUSES.LOADING;
     },
-    [login.fulfilled]: (state: Login, action: ActionType) => {
-      if (localStorage.getItem("token")) {
-        state.login = true;
-      }
+    loginSuccess: (state: any, action: ActionType) => {
+      state.login = true;
       state.status = STATUSES.IDLE;
     },
-    [login.rejected]: (state: Login, action: ActionType) => {
+    loginFailure: (state: any) => {
       state.status = STATUSES.ERROR;
     },
   },
 });
 
-export const { logout } = loginSlice.actions;
+export const { logout, loginStart, loginSuccess, loginFailure } =
+  loginSlice.actions;
 export default loginSlice.reducer;

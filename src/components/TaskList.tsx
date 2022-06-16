@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/todoSlice";
-import { fetchTasklist } from "../store/tasklistSlice";
+import { getlistFetch } from "../store/tasklistSlice";
 import { STATUSES } from "../store/tasklistSlice";
 import { Task, TaskList as TaskListType } from "../store/types";
 import { RootStateType } from "../store/store";
@@ -15,7 +15,7 @@ const TaskList = () => {
   const todo = useSelector((state: RootStateType) => state.todo) as Task[];
 
   useEffect(() => {
-    dispatch(fetchTasklist());
+    dispatch(getlistFetch());
   }, [dispatch]);
 
   const handleAdd = (task: Task) => {

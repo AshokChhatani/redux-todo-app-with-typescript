@@ -1,19 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import tasklistSlice from "./tasklistSlice";
 import todoSlice from "./todoSlice";
-
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import createSagaMiddleware from "redux-saga";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import loginSlice from "./loginSlice";
+import listSaga from "./saga/tasklistsaga";
+import { all, fork } from "redux-saga/effects";
+import loginSaga from "./saga/loginsaga";
 
 const rootReducer = combineReducers({
   tasklist: tasklistSlice,
@@ -29,15 +23,17 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const saga = createSagaMiddleware();
+
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  middleware: [saga],
 });
+
+function* sagas() {
+  yield all([fork(listSaga), fork(loginSaga)]);
+}
+saga.run(sagas);
 
 export const persistor = persistStore(store);
 

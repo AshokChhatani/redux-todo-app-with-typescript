@@ -19,3 +19,12 @@ export type Login_Data = {
   Email: string;
   Password: string;
 };
+
+export type Response = {
+  config?: any;
+  data?: any;
+  headers?: any;
+  request?: any;
+  status?: number;
+  statusText?: string;
+};
