@@ -1,21 +1,20 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { getlistFailure, getlistFetch, getlistSuccess } from "../tasklistSlice";
-import { Response } from "../types";
 
-function* fetchtasklistsaga() {
+function* fetchTaskListSaga() {
   try {
-    const list: Response = yield call(() =>
+    const list: AxiosResponse = yield call(() =>
       axios.get("https://jsonplaceholder.typicode.com/todos")
     );
     yield put(getlistSuccess(list.data));
   } catch (err) {
-    yield put(getlistFailure);
+    yield put(getlistFailure());
   }
 }
 
 function* listSaga() {
-  yield takeEvery(getlistFetch.type, fetchtasklistsaga);
+  yield takeEvery(getlistFetch.type, fetchTaskListSaga);
 }
 
 export default listSaga;

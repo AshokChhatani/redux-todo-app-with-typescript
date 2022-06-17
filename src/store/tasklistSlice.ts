@@ -1,6 +1,5 @@
-import { TaskList } from "./types";
-const { createSlice, Action } = require("@reduxjs/toolkit");
-type ActionType = typeof Action;
+import { ActionType, TaskList } from "./types";
+const { createSlice } = require("@reduxjs/toolkit");
 
 export const STATUSES = {
   IDLE: "idle",

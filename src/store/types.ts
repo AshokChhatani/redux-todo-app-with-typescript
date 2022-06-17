@@ -1,3 +1,5 @@
+const { Action } = require("@reduxjs/toolkit");
+
 export type TaskList = {
   tasklist: Task[];
   status: string;
@@ -15,16 +17,9 @@ export type Login = {
   status: string;
 };
 
-export type Login_Data = {
+export type LoginData = {
   Email: string;
   Password: string;
 };
 
-export type Response = {
-  config?: any;
-  data?: any;
-  headers?: any;
-  request?: any;
-  status?: number;
-  statusText?: string;
-};
+export type ActionType = typeof Action;

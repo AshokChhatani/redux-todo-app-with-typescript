@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { loginFailure, loginStart, loginSuccess } from "../loginSlice";
-import { Login_Data, Response } from "../types";
+import { LoginData } from "../types";
 
-function* loginapisaga(user: { type: string; payload: Login_Data }) {
+function* loginApiSaga(user: { type: string; payload: LoginData }) {
   const { payload } = user;
 
   try {
-    const data: Response = yield call(() =>
+    const data: AxiosResponse = yield call(() =>
       axios.post("https://reqres.in/api/login", payload)
     );
     localStorage.setItem("token", data.data.token);
@@ -18,7 +18,7 @@ function* loginapisaga(user: { type: string; payload: Login_Data }) {
 }
 
 function* loginSaga() {
-  yield takeEvery(loginStart.type, loginapisaga);
+  yield takeEvery(loginStart.type, loginApiSaga);
 }
 
 export default loginSaga;

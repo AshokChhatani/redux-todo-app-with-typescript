@@ -1,8 +1,6 @@
-import { Task } from "./types";
+import { Task, ActionType } from "./types";
 
-const { createSlice, Action } = require("@reduxjs/toolkit");
-
-type ActionType = typeof Action;
+const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState: Task[] = [];
 
