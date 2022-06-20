@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/todoSlice";
-import { getlistFetch } from "../store/tasklistSlice";
+import { getlistFetch, removeTaskFromTaskList } from "../store/tasklistSlice";
 import { STATUSES } from "../store/tasklistSlice";
 import { Task, TaskList as TaskListType } from "../store/types";
 import { RootStateType } from "../store/store";
@@ -44,7 +44,7 @@ const TaskList = () => {
       console.log("This task is already added in list");
     }
 
-    !val && dispatch(add(task));
+    !val && dispatch(add(task)) && dispatch(removeTaskFromTaskList(task.id));
   };
 
   if (status === STATUSES.LOADING) {

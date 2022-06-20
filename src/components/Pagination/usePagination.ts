@@ -1,8 +1,9 @@
 import { useMemo } from "react";
+import { PaginationHook } from "./types";
 
 export const DOTS = "...";
 
-const range = (start, end) => {
+const range = (start: number, end: number) => {
   let length = end - start + 1;
   /*
         Create an array of certain length and set the elements within it from
@@ -12,11 +13,11 @@ const range = (start, end) => {
 };
 
 export const usePagination = ({
-  totalCount,
-  pageSize,
-  siblingCount = 1,
   currentPage,
-}) => {
+  totalCount,
+  siblingCount = 1,
+  pageSize,
+}: PaginationHook) => {
   const paginationRange = useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize);
 

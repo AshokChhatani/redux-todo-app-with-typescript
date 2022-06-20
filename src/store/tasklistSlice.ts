@@ -1,4 +1,4 @@
-import { ActionType, TaskList } from "./types";
+import { ActionType, TaskList, Task } from "./types";
 const { createSlice } = require("@reduxjs/toolkit");
 
 export const STATUSES = {
@@ -26,9 +26,21 @@ const tasklistSlice = createSlice({
     getlistFailure: (state: any) => {
       state.status = STATUSES.ERROR;
     },
+    removeTaskFromTaskList: (state: any, action: ActionType) => {
+      const newState = state.tasklist.filter(
+        (item: Task) => item.id !== action.payload
+      );
+      state.tasklist = newState;
+
+      // state.filter((i: Task) => i.id !== action.payload.id);
+    },
   },
 });
 
-export const { getlistFetch, getlistSuccess, getlistFailure } =
-  tasklistSlice.actions;
+export const {
+  getlistFetch,
+  getlistSuccess,
+  getlistFailure,
+  removeTaskFromTaskList,
+} = tasklistSlice.actions;
 export default tasklistSlice.reducer;
