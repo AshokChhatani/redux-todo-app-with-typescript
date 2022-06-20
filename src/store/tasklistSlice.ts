@@ -16,17 +16,17 @@ const tasklistSlice = createSlice({
   name: "tasklist",
   initialState,
   reducers: {
-    getlistFetch: (state: any) => {
+    getlistFetch: (state: TaskList) => {
       state.status = STATUSES.LOADING;
     },
-    getlistSuccess: (state: any, action: ActionType) => {
+    getlistSuccess: (state: TaskList, action: ActionType) => {
       state.tasklist = action.payload;
       state.status = STATUSES.IDLE;
     },
-    getlistFailure: (state: any) => {
+    getlistFailure: (state: TaskList) => {
       state.status = STATUSES.ERROR;
     },
-    removeTaskFromTaskList: (state: any, action: ActionType) => {
+    removeTaskFromTaskList: (state: TaskList, action: ActionType) => {
       const newState = state.tasklist.filter(
         (item: Task) => item.id !== action.payload
       );

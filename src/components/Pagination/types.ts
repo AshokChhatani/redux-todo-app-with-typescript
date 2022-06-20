@@ -1,7 +1,7 @@
 export type PaginationProps = {
   onPageChange: Function;
   totalCount: number;
-  siblingCount: any;
+  siblingCount?: number;
   currentPage: number;
   pageSize: number;
   className: string;

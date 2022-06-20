@@ -9,12 +9,10 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     add(state: Task[], action: ActionType) {
-      const newState = state.concat(action.payload);
-      return newState;
+      return state.concat(action.payload);
     },
     remove(state: Task[], action: ActionType) {
-      const newState = state.filter((item: Task) => item.id !== action.payload);
-      return newState;
+      return state.filter((item: Task) => item.id !== action.payload.id);
     },
   },
 });

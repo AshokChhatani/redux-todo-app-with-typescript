@@ -10,8 +10,8 @@ const TodoList = () => {
 
   const todo = useSelector((state: RootStateType) => state.todo) as Task[];
 
-  const handleRemove = (taskId: Number) => {
-    dispatch(remove(taskId));
+  const handleRemove = (task: Task) => {
+    dispatch(remove(task));
   };
 
   const isLogin = useSelector((state: RootStateType) => state.login) as Login;
@@ -30,7 +30,7 @@ const TodoList = () => {
           <div key={task.id} className="todoListCard">
             <h5>{task.title}</h5>
             <h5>{task.completed}</h5>
-            <button className="btn" onClick={() => handleRemove(task.id)}>
+            <button className="btn" onClick={() => handleRemove(task)}>
               Remove
             </button>
           </div>

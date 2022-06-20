@@ -20,14 +20,14 @@ const loginSlice = createSlice({
       localStorage.removeItem("token");
       state.login = false;
     },
-    loginStart: (state: any) => {
+    loginStart: (state: Login) => {
       state.status = STATUSES.LOADING;
     },
-    loginSuccess: (state: any, action: ActionType) => {
+    loginSuccess: (state: Login, action: ActionType) => {
       state.login = true;
       state.status = STATUSES.IDLE;
     },
-    loginFailure: (state: any) => {
+    loginFailure: (state: Login) => {
       state.status = STATUSES.ERROR;
     },
   },

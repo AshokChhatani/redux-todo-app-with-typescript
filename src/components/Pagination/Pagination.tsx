@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { usePagination, DOTS } from "./usePagination";
 import "./pagination.scss";
-import { PaginationHook, PaginationProps } from "./types";
+import { PaginationProps } from "./types";
 
 const Pagination = (props: PaginationProps) => {
   const {
@@ -13,12 +13,13 @@ const Pagination = (props: PaginationProps) => {
     className,
   } = props;
 
-  const paginationRange: PaginationHook | any = usePagination({
-    currentPage,
-    totalCount,
-    siblingCount,
-    pageSize,
-  });
+  const paginationRange =
+    usePagination({
+      currentPage,
+      totalCount,
+      siblingCount,
+      pageSize,
+    }) || [];
 
   // If there are less than 2 times in pagination range we shall not render the component
   if (currentPage === 0 || paginationRange.length < 2) {
@@ -51,7 +52,7 @@ const Pagination = (props: PaginationProps) => {
         // If the pageItem is a DOT, render the DOTS unicode character
         if (pageNumber === DOTS) {
           return (
-            <li key={pageNumber} className="pagination-item dots">
+            <li key={Math.random()} className="pagination-item dots">
               &#8230;
             </li>
           );
@@ -60,7 +61,7 @@ const Pagination = (props: PaginationProps) => {
         // Render our Page Pills
         return (
           <li
-            key={pageNumber}
+            key={Math.random()}
             className={classnames("pagination-item", {
               selected: pageNumber === currentPage,
             })}

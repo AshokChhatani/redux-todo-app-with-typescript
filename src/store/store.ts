@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  // whitelist: ["todo", "login", "tasklist"],
+  blacklist: ["tasklist"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
