@@ -28,15 +28,13 @@ const TaskList = () => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     return list?.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, PageSize, list]);
+  }, [currentPage, list]);
 
   const todoIds = useMemo(() => todo.map((t) => t.id), [todo]);
 
   useEffect(() => {
     dispatch(getlistFetch());
   }, [dispatch]);
-
-  useEffect(() => {}, [list]);
 
   useEffect(() => {
     setList(
